@@ -1,0 +1,15 @@
+{
+  "fp32_bytes": 576,
+  "layer_sensitivity": {
+    "0": 8.653999021069264e-05,
+    "1": 8.673879146583784e-05
+  },
+  "median_batch_ms": 1.1163329909322783,
+  "mixed_bytes": 208,
+  "output_mse": 0.00015690982195674225,
+  "quantized_layers": [
+    0,
+    1
+  ],
+  "top1_agreement": 1
+}
