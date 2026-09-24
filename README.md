@@ -114,7 +114,7 @@ from edge_quant.qmodel import QuantConfig, QuantizedMLP, IntegerMLP
 splits = load_digits_splits(seed=0)
 model = train_mlp(splits.x_train, splits.y_train, seed=0)
 qmodel = QuantizedMLP(model, QuantConfig.uniform(3, 8, 8, observer="mse"), splits.x_calib)
-logits = IntegerMLP(qmodel).forward(splits.x_test)   # integer arithmetic end to end
+logits = IntegerMLP(qmodel).forward(splits.x_test)  # integer arithmetic end to end
 ```
 
 ## Tests
