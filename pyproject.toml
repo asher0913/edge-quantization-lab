@@ -4,17 +4,30 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "edge-quantization-lab"
-version = "0.1.0"
-description = "A dependency-free mixed-precision quantization workbench that measures layer sensitivity, reconstruction error, latency, and model-size trade-offs before edge deployment."
+version = "1.0.0"
+description = "Post-training quantization from scratch: INT8/INT4, per-channel scales, calibration observers, sensitivity-driven mixed precision and a bit-exact integer-only kernel."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 license = {text = "MIT"}
-authors = [{name = "Asher"}]
-classifiers = [
-  "Programming Language :: Python :: 3",
-  "License :: OSI Approved :: MIT License",
-]
+authors = [{name = "Yixuan Zhang"}]
+dependencies = ["numpy>=1.24", "scikit-learn>=1.3"]
+
+[project.optional-dependencies]
+viz = ["matplotlib>=3.7"]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[project.scripts]
+edge-quant = "edge_quant.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["edge_quantization_lab*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]

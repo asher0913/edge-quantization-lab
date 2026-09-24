@@ -1,0 +1,223 @@
+{
+  "dataset": "sklearn digits, 8x8, 10 classes; per seed: 1,091 train / 256 calibration / 450 test",
+  "model": {
+    "layers": [
+      64,
+      256,
+      128,
+      10
+    ],
+    "parameters": 50826,
+    "fp32_bytes": 203304
+  },
+  "seeds": 5,
+  "recipes": [
+    {
+      "recipe": "FP32",
+      "config": "FP32",
+      "accuracy": {
+        "mean": 0.9817777777777777,
+        "std": 0.003651483716701131
+      },
+      "agreement": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "kl": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "bytes": 203304,
+      "compression": 1.0
+    },
+    {
+      "recipe": "W8A8 per-tensor, min-max",
+      "config": "W8A8 / W8A8 / W8A8",
+      "accuracy": {
+        "mean": 0.9813333333333333,
+        "std": 0.003370166864022933
+      },
+      "agreement": {
+        "mean": 0.9995555555555555,
+        "std": 0.000993807989999913
+      },
+      "kl": {
+        "mean": 2.672202346063815e-05,
+        "std": 9.038206047846585e-06
+      },
+      "bytes": 52020,
+      "compression": 3.91
+    },
+    {
+      "recipe": "W8A8 per-channel, min-max",
+      "config": "W8A8 / W8A8 / W8A8",
+      "accuracy": {
+        "mean": 0.9808888888888889,
+        "std": 0.003370166864022933
+      },
+      "agreement": {
+        "mean": 0.9991111111111112,
+        "std": 0.001217161238900377
+      },
+      "kl": {
+        "mean": 1.57900259095007e-05,
+        "std": 4.5397272451067985e-06
+      },
+      "bytes": 53584,
+      "compression": 3.79
+    },
+    {
+      "recipe": "W8A8 per-channel, MSE",
+      "config": "W8A8 / W8A8 / W8A8",
+      "accuracy": {
+        "mean": 0.9813333333333333,
+        "std": 0.0037184890068181374
+      },
+      "agreement": {
+        "mean": 0.9995555555555555,
+        "std": 0.000993807989999913
+      },
+      "kl": {
+        "mean": 1.7816864332731066e-05,
+        "std": 6.810073095170881e-06
+      },
+      "bytes": 53584,
+      "compression": 3.79
+    },
+    {
+      "recipe": "W4A8 per-tensor, min-max",
+      "config": "W4A8 / W4A8 / W4A8",
+      "accuracy": {
+        "mean": 0.9786666666666667,
+        "std": 0.004036867138796645
+      },
+      "agreement": {
+        "mean": 0.992,
+        "std": 0.0046080980785172445
+      },
+      "kl": {
+        "mean": 0.006333565273902493,
+        "std": 0.0022348565515092414
+      },
+      "bytes": 26804,
+      "compression": 7.58
+    },
+    {
+      "recipe": "W4A8 per-channel, min-max",
+      "config": "W4A8 / W4A8 / W4A8",
+      "accuracy": {
+        "mean": 0.9768888888888888,
+        "std": 0.0033701668640228853
+      },
+      "agreement": {
+        "mean": 0.9924444444444445,
+        "std": 0.004331908597692846
+      },
+      "kl": {
+        "mean": 0.004166639530234438,
+        "std": 0.0027388397715665974
+      },
+      "bytes": 28368,
+      "compression": 7.17
+    },
+    {
+      "recipe": "W4A4 per-channel, min-max",
+      "config": "W4A4 / W4A4 / W4A4",
+      "accuracy": {
+        "mean": 0.9764444444444444,
+        "std": 0.0025337231668869555
+      },
+      "agreement": {
+        "mean": 0.9915555555555555,
+        "std": 0.002434322477800693
+      },
+      "kl": {
+        "mean": 0.005690640844710798,
+        "std": 0.002223581046126454
+      },
+      "bytes": 28368,
+      "compression": 7.17
+    },
+    {
+      "recipe": "W4A4 per-channel, MSE",
+      "config": "W4A4 / W4A4 / W4A4",
+      "accuracy": {
+        "mean": 0.9764444444444444,
+        "std": 0.0033701668640228892
+      },
+      "agreement": {
+        "mean": 0.9911111111111112,
+        "std": 0.0035136418446315024
+      },
+      "kl": {
+        "mean": 0.005757720115984121,
+        "std": 0.0020747964642541276
+      },
+      "bytes": 28368,
+      "compression": 7.17
+    },
+    {
+      "recipe": "W3A8 per-channel, min-max",
+      "config": "W3A8 / W3A8 / W3A8",
+      "accuracy": {
+        "mean": 0.9706666666666667,
+        "std": 0.009081251885201149
+      },
+      "agreement": {
+        "mean": 0.9831111111111112,
+        "std": 0.010726683009908596
+      },
+      "kl": {
+        "mean": 0.02269278803063881,
+        "std": 0.015941760843141667
+      },
+      "bytes": 22064,
+      "compression": 9.21
+    },
+    {
+      "recipe": "W2A8 per-channel, min-max",
+      "config": "W2A8 / W2A8 / W2A8",
+      "accuracy": {
+        "mean": 0.6688888888888889,
+        "std": 0.1322548979232579
+      },
+      "agreement": {
+        "mean": 0.6746666666666667,
+        "std": 0.1333018481344103
+      },
+      "kl": {
+        "mean": 1.0595348822806172,
+        "std": 0.6248543676530727
+      },
+      "bytes": 15760,
+      "compression": 12.9
+    },
+    {
+      "recipe": "Mixed precision, searched (0.5% budget)",
+      "config": "Mixed W[844]A8 (searched)",
+      "accuracy": {
+        "mean": 0.9782222222222222,
+        "std": 0.003975231959999617
+      },
+      "agreement": {
+        "mean": 0.9946666666666667,
+        "std": 0.0037184890068180944
+      },
+      "kl": {
+        "mean": 0.003583825692586215,
+        "std": 0.003152497596568713
+      },
+      "bytes": 31773,
+      "compression": 6.4
+    }
+  ],
+  "integer_kernel": {
+    "top1_agreement_with_simulation": 1.0,
+    "max_code_difference_lsb": 1,
+    "fraction_codes_differing": 2.48015873015873e-05,
+    "accuracy": {
+      "mean": 0.9813333333333333,
+      "std": 0.0037184890068181374
+    }
+  }
+}

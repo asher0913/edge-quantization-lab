@@ -1,0 +1,187 @@
+{
+  "fp32_accuracy": 0.9817777777777777,
+  "weights": [
+    {
+      "bits": 2,
+      "per_channel": false,
+      "accuracy": 0.31955555555555554,
+      "kl": 1.971382633512156
+    },
+    {
+      "bits": 2,
+      "per_channel": true,
+      "accuracy": 0.6688888888888889,
+      "kl": 1.0595348822806172
+    },
+    {
+      "bits": 3,
+      "per_channel": false,
+      "accuracy": 0.9702222222222222,
+      "kl": 0.04046705635396787
+    },
+    {
+      "bits": 3,
+      "per_channel": true,
+      "accuracy": 0.9706666666666667,
+      "kl": 0.02269278803063881
+    },
+    {
+      "bits": 4,
+      "per_channel": false,
+      "accuracy": 0.9786666666666667,
+      "kl": 0.006333565273902493
+    },
+    {
+      "bits": 4,
+      "per_channel": true,
+      "accuracy": 0.9768888888888888,
+      "kl": 0.004166639530234438
+    },
+    {
+      "bits": 5,
+      "per_channel": false,
+      "accuracy": 0.9813333333333333,
+      "kl": 0.0012945754348562984
+    },
+    {
+      "bits": 5,
+      "per_channel": true,
+      "accuracy": 0.9795555555555555,
+      "kl": 0.0008689024483386334
+    },
+    {
+      "bits": 6,
+      "per_channel": false,
+      "accuracy": 0.9804444444444445,
+      "kl": 0.0003498273658541852
+    },
+    {
+      "bits": 6,
+      "per_channel": true,
+      "accuracy": 0.9804444444444445,
+      "kl": 0.00015430216450759243
+    },
+    {
+      "bits": 8,
+      "per_channel": false,
+      "accuracy": 0.9813333333333333,
+      "kl": 2.672202346063815e-05
+    },
+    {
+      "bits": 8,
+      "per_channel": true,
+      "accuracy": 0.9808888888888889,
+      "kl": 1.57900259095007e-05
+    }
+  ],
+  "activations": [
+    {
+      "bits": 2,
+      "observer": "minmax",
+      "accuracy": 0.9644444444444444,
+      "kl": 0.06926440693501812
+    },
+    {
+      "bits": 2,
+      "observer": "percentile",
+      "accuracy": 0.9666666666666666,
+      "kl": 0.059915516031761304
+    },
+    {
+      "bits": 2,
+      "observer": "mse",
+      "accuracy": 0.971111111111111,
+      "kl": 0.025696642676160314
+    },
+    {
+      "bits": 3,
+      "observer": "minmax",
+      "accuracy": 0.9804444444444445,
+      "kl": 0.009399939676187052
+    },
+    {
+      "bits": 3,
+      "observer": "percentile",
+      "accuracy": 0.9786666666666667,
+      "kl": 0.007088748252982074
+    },
+    {
+      "bits": 3,
+      "observer": "mse",
+      "accuracy": 0.979111111111111,
+      "kl": 0.006421735393665815
+    },
+    {
+      "bits": 4,
+      "observer": "minmax",
+      "accuracy": 0.9786666666666667,
+      "kl": 0.00244892002046191
+    },
+    {
+      "bits": 4,
+      "observer": "percentile",
+      "accuracy": 0.9800000000000001,
+      "kl": 0.0022931160385895218
+    },
+    {
+      "bits": 4,
+      "observer": "mse",
+      "accuracy": 0.979111111111111,
+      "kl": 0.0017186575781022652
+    },
+    {
+      "bits": 5,
+      "observer": "minmax",
+      "accuracy": 0.9813333333333333,
+      "kl": 0.0004890441244035886
+    },
+    {
+      "bits": 5,
+      "observer": "percentile",
+      "accuracy": 0.9813333333333333,
+      "kl": 0.0004393663889732301
+    },
+    {
+      "bits": 5,
+      "observer": "mse",
+      "accuracy": 0.9813333333333333,
+      "kl": 0.00031389782912357724
+    },
+    {
+      "bits": 6,
+      "observer": "minmax",
+      "accuracy": 0.9804444444444445,
+      "kl": 0.00012987974186479844
+    },
+    {
+      "bits": 6,
+      "observer": "percentile",
+      "accuracy": 0.9808888888888889,
+      "kl": 0.00012310657787823254
+    },
+    {
+      "bits": 6,
+      "observer": "mse",
+      "accuracy": 0.9817777777777777,
+      "kl": 0.00013138290693175098
+    },
+    {
+      "bits": 8,
+      "observer": "minmax",
+      "accuracy": 0.9808888888888889,
+      "kl": 1.57900259095007e-05
+    },
+    {
+      "bits": 8,
+      "observer": "percentile",
+      "accuracy": 0.9808888888888889,
+      "kl": 1.663780041006506e-05
+    },
+    {
+      "bits": 8,
+      "observer": "mse",
+      "accuracy": 0.9813333333333333,
+      "kl": 1.7816864332731066e-05
+    }
+  ]
+}
