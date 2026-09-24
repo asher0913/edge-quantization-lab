@@ -90,8 +90,7 @@ flowchart LR
 ## A deployment bug this caught
 
 The first version of the integer kernel hit invalid integer casts on some seeds. The cause was
-**dead ReLU units**: weight
-decay drove every weight of a few channels to about 10⁻²⁴, so the per-channel scale became
+**dead ReLU units**: weight decay drove every weight of a few channels to about 10⁻²⁴, so the per-channel scale became
 10⁻²⁶ and the bias, stored as `bias / (s_in · s_w)`, overflowed int64. The fix mirrors production
 runtimes: a floor on each channel's weight range and int32 saturation of quantized biases. Both
 are covered by tests.
@@ -133,8 +132,8 @@ models in the integer path, and the mixed-precision search staying within its bu
   large activation ranges) that an MLP on 8×8 digits does not exhibit.
 - Latency is not reported. NumPy has no int8 GEMM, so timing the integer kernel here would say
   nothing about an NPU, DSP or TensorRT engine; the value of this code is numerical fidelity.
-- Only post-training quantization is covered. Quantization-aware training would recover most of
-  the 3- and 2-bit loss.
+- Only post-training quantization is covered. Quantization-aware training is the usual next step
+  for the 3- and 2-bit regimes and is not implemented here.
 - With 450 test images, one image is 0.22 points, so accuracy differences under about 0.4 points
   are within seed noise; the KL and agreement columns are the more sensitive signals.
 
