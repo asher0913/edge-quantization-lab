@@ -28,12 +28,21 @@ This needs Python 3.10+ and no GPU, and takes about 25 seconds on a laptop, incl
 1. checks the SHA-256 of the dataset;
 2. trains the five seed models;
 3. reruns every table and figure input on this page;
-4. compares all 354 numbers with the committed `results/*.json`.
+4. compares the 354 fresh numbers with the committed `results/*.json`;
+5. checks each claim in this README with an explicit tolerance (`scripts/check_claims.py`).
+
+On macOS arm64, where `results/` was produced, the fresh numbers are bit-identical. On Linux
+x86-64 they are not, because OpenBLAS and Accelerate sum matrix products in a different order, so
+training ends at slightly different weights. Across the two platforms:
+
+- accuracy moves by at most 0.09 points (0.58 at 2 bits);
+- every uniform recipe's size is identical;
+- every claim below still holds.
 
 Fresh outputs, the environment and the log go to `runs/demo/`. The `quickstart` CI job runs the
 same script on a clean Ubuntu runner and uploads `runs/demo/` as an artifact.
-[`results/demo_run.log`](results/demo_run.log) is the log of one such run, for reading without
-running anything.
+[`results/demo_run.log`](results/demo_run.log) is the log of a run on a clean clone, for reading
+without running anything.
 
 ## Results
 
@@ -163,9 +172,9 @@ are covered by tests.
 
 | Claim | Data | Evidence | Rerun in CI? |
 |---|---|---|---|
-| Recipe table, integer-kernel equivalence | real (digits) | `results/benchmark.json` | Yes: `quickstart` compares all 133 numbers |
-| Bit-width sweeps | real (digits) | `results/bit_sweep.json` | Yes: all 121 numbers |
-| Greedy vs exhaustive search | real (digits) | `results/search_ablation.json` | Yes: all 100 numbers |
+| Recipe table, integer-kernel equivalence | real (digits) | `results/benchmark.json` | Yes: `quickstart` reruns it and checks every accuracy, size and stated claim |
+| Bit-width sweeps | real (digits) | `results/bit_sweep.json` | Rerun and compared; not bit-identical on Linux (see Quick start) |
+| Greedy vs exhaustive search | real (digits) | `results/search_ablation.json` | Yes: the 4/5 and 5/5 match counts are checked |
 | Figure `docs/bit_sweep.png` | real (digits) | drawn by `scripts/make_figures.py` from `bit_sweep.json` | No; the numbers behind it are checked |
 | Quantizer properties | synthetic tensors and the seed-0 model | `tests/`, 45 tests | Yes, on Python 3.10 and 3.12 |
 

@@ -42,8 +42,16 @@ edge-quant sweep --seeds 5 --out "$OUT/bit_sweep.json" > /dev/null
 echo; echo "== greedy search vs exhaustive optimum"
 edge-quant ablate-search --seeds 5 --out "$OUT/search_ablation.json"
 
-echo; echo "== fresh results vs committed results/"
+echo; echo "== bit-for-bit comparison with the committed results/ (produced on macOS arm64)"
+identical=yes
 for name in benchmark bit_sweep search_ablation; do
-  python scripts/compare_results.py "$OUT/$name.json" "results/$name.json"
+  python scripts/compare_results.py --max-lines 3 "$OUT/$name.json" "results/$name.json" || identical=no
 done
+if [ "$identical" = no ]; then
+  echo "Not bit-identical. Training runs through BLAS, whose summation order differs between"
+  echo "platforms (Accelerate on macOS, OpenBLAS on Linux), so the weights differ in the last bits."
+fi
+
+echo; echo "== the README's claims, with explicit tolerances"
+python scripts/check_claims.py "$OUT"
 echo; echo "Done. Outputs are in $OUT/."

@@ -1,6 +1,6 @@
 """Compare a freshly generated results JSON with the committed one.
 
-    python scripts/compare_results.py FRESH COMMITTED [--ignore KEY ...] [--rtol R] [--atol A]
+    python scripts/compare_results.py FRESH COMMITTED [--ignore KEY ...] [--rtol R] [--atol A] [--max-lines N]
 
 Numbers must agree within the tolerances; strings, booleans and structure must match exactly.
 Keys passed with --ignore (for example wall-clock timings) are skipped wherever they appear.
@@ -60,6 +60,7 @@ def main(argv=None) -> int:
     parser.add_argument("--ignore", nargs="*", default=[], help="keys to skip, e.g. timing fields")
     parser.add_argument("--rtol", type=float, default=1e-9)
     parser.add_argument("--atol", type=float, default=1e-12)
+    parser.add_argument("--max-lines", type=int, default=50, help="differences to print")
     args = parser.parse_args(argv)
     with open(args.fresh) as f:
         fresh = json.load(f)
@@ -68,8 +69,10 @@ def main(argv=None) -> int:
     checked, diffs = compare(fresh, committed, ignore=set(args.ignore), rtol=args.rtol, atol=args.atol)
     if diffs:
         print(f"{args.fresh} differs from {args.committed} in {len(diffs)} of {checked} fields:")
-        for line in diffs[:50]:
+        for line in diffs[: args.max_lines]:
             print("  " + line)
+        if len(diffs) > args.max_lines:
+            print(f"  ... and {len(diffs) - args.max_lines} more")
         return 1
     skipped = f" (ignoring {', '.join(args.ignore)})" if args.ignore else ""
     print(f"OK: {args.fresh} matches {args.committed} on all {checked} fields{skipped}")
