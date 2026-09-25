@@ -1,0 +1,89 @@
+commit: 5075a4b
+python: 3.12.13 on macOS-27.0-arm64-arm-64bit
+numpy: 2.5.3  scikit-learn: 1.9.1
+digits sha256: f6d9e39f37dc45d327f6db33428ee58970ccceabb2535a5c179de35886b70443 (expected)
+
+== benchmark: 12 recipes x 5 seeds
+50,826 parameters, FP32 203,304 bytes
+
+| Recipe | Test accuracy % | Top-1 agreement % | KL(FP32‖Q) | Bytes | Compression |
+|---|---:|---:|---:|---:|---:|
+| FP32 | 98.18 ± 0.37 | 100.00 | 0.00000 | 203,304 | 1.0× |
+| W8A8 per-tensor, min-max | 98.13 ± 0.34 | 99.96 | 0.00003 | 52,020 | 3.91× |
+| W8A8 per-channel, min-max | 98.09 ± 0.34 | 99.91 | 0.00002 | 53,584 | 3.79× |
+| W8A8 per-channel, MSE | 98.13 ± 0.37 | 99.96 | 0.00002 | 53,584 | 3.79× |
+| W4A8 per-tensor, min-max | 97.87 ± 0.40 | 99.20 | 0.00633 | 26,804 | 7.58× |
+| W4A8 per-channel, min-max | 97.69 ± 0.34 | 99.24 | 0.00417 | 28,368 | 7.17× |
+| W4A4 per-channel, min-max | 97.64 ± 0.25 | 99.16 | 0.00569 | 28,368 | 7.17× |
+| W4A4 per-channel, MSE | 97.64 ± 0.34 | 99.11 | 0.00576 | 28,368 | 7.17× |
+| W3A8 per-channel, min-max | 97.07 ± 0.91 | 98.31 | 0.02269 | 22,064 | 9.21× |
+| W2A8 per-channel, min-max | 66.89 ± 13.23 | 67.47 | 1.05953 | 15,760 | 12.9× |
+| Mixed precision, searched (0.5% budget) | 97.82 ± 0.40 | 99.47 | 0.00358 | 31,773 | 6.4× |
+| Mixed precision, searched, KL-per-byte order (0.5% budget) | 97.87 ± 0.46 | 99.51 | 0.00324 | 30,262 | 6.72× |
+
+Integer-only kernel vs simulation: {
+  "top1_agreement_with_simulation": 1.0,
+  "max_code_difference_lsb": 1,
+  "fraction_codes_differing": 2.48015873015873e-05,
+  "accuracy": {
+    "mean": 0.9813333333333333,
+    "std": 0.0037184890068181374
+  }
+}
+
+== bit-width sweep
+
+== greedy search vs exhaustive optimum
+| Seed | Greedy, KL order | Greedy, KL per byte | Exhaustive |
+|---:|---|---|---|
+| 0 | [8, 4, 4] 36,560 B | [4, 4, 8] 29,008 B | [4, 4, 8] 29,008 B |
+| 1 | [4, 4, 8] 29,008 B | [4, 4, 8] 29,008 B | [4, 4, 8] 29,008 B |
+| 2 | [4, 4, 4] 28,368 B | [4, 4, 4] 28,368 B | [4, 4, 4] 28,368 B |
+| 3 | [4, 4, 4] 28,368 B | [4, 4, 4] 28,368 B | [4, 4, 4] 28,368 B |
+| 4 | [8, 4, 4] 36,560 B | [8, 4, 4] 36,560 B | [8, 4, 4] 36,560 B |
+greedy (kl) matches exhaustive on 4 of 5 seeds
+greedy (kl_per_byte) matches exhaustive on 5 of 5 seeds
+
+== bit-for-bit comparison with the committed results/ (produced on macOS arm64)
+OK: runs/demo/benchmark.json matches results/benchmark.json on all 133 fields
+OK: runs/demo/bit_sweep.json matches results/bit_sweep.json on all 121 fields
+OK: runs/demo/search_ablation.json matches results/search_ablation.json on all 100 fields
+
+== the README's claims, with explicit tolerances
+Recipe accuracy within 0.5 points of the committed mean (2 points at W2, where seed std is 13):
+  ok    FP32: 98.18% (+0.00)
+  ok    W8A8 per-tensor, min-max: 98.13% (+0.00)
+  ok    W8A8 per-channel, min-max: 98.09% (+0.00)
+  ok    W8A8 per-channel, MSE: 98.13% (+0.00)
+  ok    W4A8 per-tensor, min-max: 97.87% (+0.00)
+  ok    W4A8 per-channel, min-max: 97.69% (+0.00)
+  ok    W4A4 per-channel, min-max: 97.64% (+0.00)
+  ok    W4A4 per-channel, MSE: 97.64% (+0.00)
+  ok    W3A8 per-channel, min-max: 97.07% (+0.00)
+  ok    W2A8 per-channel, min-max: 66.89% (+0.00)
+  ok    Mixed precision, searched (0.5% budget): 97.82% (+0.00)
+  ok    Mixed precision, searched, KL-per-byte order (0.5% budget): 97.87% (+0.00)
+Sizes of uniform recipes are exact:
+  ok    FP32: 203,304 bytes
+  ok    W8A8 per-tensor, min-max: 52,020 bytes
+  ok    W8A8 per-channel, min-max: 53,584 bytes
+  ok    W8A8 per-channel, MSE: 53,584 bytes
+  ok    W4A8 per-tensor, min-max: 26,804 bytes
+  ok    W4A8 per-channel, min-max: 28,368 bytes
+  ok    W4A4 per-channel, min-max: 28,368 bytes
+  ok    W4A4 per-channel, MSE: 28,368 bytes
+  ok    W3A8 per-channel, min-max: 22,064 bytes
+  ok    W2A8 per-channel, min-max: 15,760 bytes
+Qualitative claims:
+  ok    integer kernel agrees with simulation on every test image
+  ok    integer kernel codes within 1 LSB of simulation
+  ok    per-channel scales lower output KL at 4 bits
+  ok    2-bit weights collapse
+  ok    KL-per-byte search is no larger than KL-order search
+  ok    KL-per-byte search has lower KL than every uniform 4-bit recipe
+  ok    KL-per-byte greedy matches the exhaustive optimum on 5/5
+  ok    KL-order greedy misses the optimum on at least one seed (4/5)
+
+All claims hold.
+
+Done. Outputs are in runs/demo/.
