@@ -209,6 +209,24 @@
       },
       "bytes": 31773,
       "compression": 6.4
+    },
+    {
+      "recipe": "Mixed precision, searched, KL-per-byte order (0.5% budget)",
+      "config": "Mixed W[448]A8 (searched)",
+      "accuracy": {
+        "mean": 0.9786666666666667,
+        "std": 0.004608098078517269
+      },
+      "agreement": {
+        "mean": 0.9951111111111111,
+        "std": 0.0039752319599996085
+      },
+      "kl": {
+        "mean": 0.003241893034296283,
+        "std": 0.0032589659818997693
+      },
+      "bytes": 30262,
+      "compression": 6.72
     }
   ],
   "integer_kernel": {

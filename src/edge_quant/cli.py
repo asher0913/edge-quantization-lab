@@ -1,4 +1,4 @@
-"""``edge-quant benchmark | sweep | sensitivity | search``."""
+"""``edge-quant benchmark | sweep | sensitivity | search | ablate-search``."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ import argparse
 import json
 from pathlib import Path
 
-from .benchmark import bit_sweep, run_benchmark
+from .benchmark import bit_sweep, run_benchmark, search_ablation
 from .model import load_digits_splits, train_mlp
 from .search import layer_sensitivity, search_mixed_precision
 
@@ -58,6 +58,21 @@ def _search(args) -> int:
     return 0
 
 
+def _ablate_search(args) -> int:
+    report = search_ablation(seeds=args.seeds, budget=args.budget)
+    if args.out:
+        Path(args.out).write_text(json.dumps(report, indent=2) + "\n")
+    print("| Seed | Greedy, KL order | Greedy, KL per byte | Exhaustive |")
+    print("|---:|---|---|---|")
+    for row in report["seeds"]:
+        cells = [row[k] for k in ("greedy_kl", "greedy_kl_per_byte", "exhaustive")]
+        print(f"| {row['seed']} | " + " | ".join(f"{c['weight_bits']} {c['bytes']:,} B" for c in cells) + " |")
+    n = len(report["seeds"])
+    for order, hits in report["matches_exhaustive"].items():
+        print(f"greedy ({order}) matches exhaustive on {hits} of {n} seeds")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="edge-quant", description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
@@ -77,6 +92,11 @@ def build_parser() -> argparse.ArgumentParser:
     search.add_argument("--budget", type=float, default=0.005)
     search.add_argument("--seed", type=int, default=0)
     search.set_defaults(func=_search)
+    ablate = sub.add_parser("ablate-search", help="greedy mixed-precision search vs the exhaustive optimum")
+    ablate.add_argument("--seeds", type=int, default=5)
+    ablate.add_argument("--budget", type=float, default=0.005)
+    ablate.add_argument("--out")
+    ablate.set_defaults(func=_ablate_search)
     return parser
 
 

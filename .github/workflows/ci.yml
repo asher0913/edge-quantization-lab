@@ -19,14 +19,18 @@ jobs:
       - run: ruff check src tests scripts
       - run: ruff format --check src tests scripts
       - run: pytest -q
-      - name: Benchmark reproduces the committed integer-kernel result
-        run: |
-          edge-quant benchmark --seeds 5 --out /tmp/benchmark.json
-          python - <<'PY'
-          import json
-          fresh = json.load(open("/tmp/benchmark.json"))["integer_kernel"]
-          committed = json.load(open("results/benchmark.json"))["integer_kernel"]
-          assert fresh["top1_agreement_with_simulation"] == committed["top1_agreement_with_simulation"] == 1.0
-          assert fresh["max_code_difference_lsb"] <= 1
-          print("integer kernel check passed", fresh)
-          PY
+
+  quickstart:
+    # The README's one-command demo on a clean runner: reruns every result and compares it with results/.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: ./scripts/demo.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: demo-run
+          path: runs/demo/

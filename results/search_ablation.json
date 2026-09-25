@@ -1,0 +1,178 @@
+{
+  "budget": 0.005,
+  "quantized_forward_passes": {
+    "greedy": 6,
+    "exhaustive": 8
+  },
+  "matches_exhaustive": {
+    "kl": 4,
+    "kl_per_byte": 5
+  },
+  "seeds": [
+    {
+      "seed": 0,
+      "greedy_kl": {
+        "weight_bits": [
+          8,
+          4,
+          4
+        ],
+        "bytes": 36560,
+        "test_accuracy": 0.9822222222222222,
+        "test_kl": 0.0034691499417847833
+      },
+      "greedy_kl_per_byte": {
+        "weight_bits": [
+          4,
+          4,
+          8
+        ],
+        "bytes": 29008,
+        "test_accuracy": 0.9844444444444445,
+        "test_kl": 0.0017594866503351232
+      },
+      "exhaustive": {
+        "weight_bits": [
+          4,
+          4,
+          8
+        ],
+        "bytes": 29008,
+        "test_accuracy": 0.9844444444444445,
+        "test_kl": 0.0017594866503351232
+      }
+    },
+    {
+      "seed": 1,
+      "greedy_kl": {
+        "weight_bits": [
+          4,
+          4,
+          8
+        ],
+        "bytes": 29008,
+        "test_accuracy": 0.9777777777777777,
+        "test_kl": 0.001145618395815146
+      },
+      "greedy_kl_per_byte": {
+        "weight_bits": [
+          4,
+          4,
+          8
+        ],
+        "bytes": 29008,
+        "test_accuracy": 0.9777777777777777,
+        "test_kl": 0.001145618395815146
+      },
+      "exhaustive": {
+        "weight_bits": [
+          4,
+          4,
+          8
+        ],
+        "bytes": 29008,
+        "test_accuracy": 0.9777777777777777,
+        "test_kl": 0.001145618395815146
+      }
+    },
+    {
+      "seed": 2,
+      "greedy_kl": {
+        "weight_bits": [
+          4,
+          4,
+          4
+        ],
+        "bytes": 28368,
+        "test_accuracy": 0.9733333333333334,
+        "test_kl": 0.008910133419308497
+      },
+      "greedy_kl_per_byte": {
+        "weight_bits": [
+          4,
+          4,
+          4
+        ],
+        "bytes": 28368,
+        "test_accuracy": 0.9733333333333334,
+        "test_kl": 0.008910133419308497
+      },
+      "exhaustive": {
+        "weight_bits": [
+          4,
+          4,
+          4
+        ],
+        "bytes": 28368,
+        "test_accuracy": 0.9733333333333334,
+        "test_kl": 0.008910133419308497
+      }
+    },
+    {
+      "seed": 3,
+      "greedy_kl": {
+        "weight_bits": [
+          4,
+          4,
+          4
+        ],
+        "bytes": 28368,
+        "test_accuracy": 0.9755555555555555,
+        "test_kl": 0.0030857816855281526
+      },
+      "greedy_kl_per_byte": {
+        "weight_bits": [
+          4,
+          4,
+          4
+        ],
+        "bytes": 28368,
+        "test_accuracy": 0.9755555555555555,
+        "test_kl": 0.0030857816855281526
+      },
+      "exhaustive": {
+        "weight_bits": [
+          4,
+          4,
+          4
+        ],
+        "bytes": 28368,
+        "test_accuracy": 0.9755555555555555,
+        "test_kl": 0.0030857816855281526
+      }
+    },
+    {
+      "seed": 4,
+      "greedy_kl": {
+        "weight_bits": [
+          8,
+          4,
+          4
+        ],
+        "bytes": 36560,
+        "test_accuracy": 0.9822222222222222,
+        "test_kl": 0.0013084450204944955
+      },
+      "greedy_kl_per_byte": {
+        "weight_bits": [
+          8,
+          4,
+          4
+        ],
+        "bytes": 36560,
+        "test_accuracy": 0.9822222222222222,
+        "test_kl": 0.0013084450204944955
+      },
+      "exhaustive": {
+        "weight_bits": [
+          8,
+          4,
+          4
+        ],
+        "bytes": 36560,
+        "test_accuracy": 0.9822222222222222,
+        "test_kl": 0.0013084450204944955
+      }
+    }
+  ]
+}

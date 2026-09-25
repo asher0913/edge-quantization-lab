@@ -9,7 +9,7 @@ import numpy as np
 
 from .model import MLP, Splits, accuracy, load_digits_splits, train_mlp
 from .qmodel import IntegerMLP, QuantConfig, QuantizedMLP, fake_quant_codes
-from .search import kl_divergence, search_mixed_precision
+from .search import exhaustive_search, kl_divergence, search_mixed_precision
 
 N_LAYERS = 3
 
@@ -20,9 +20,9 @@ def _uniform(w, a, per_channel=True, observer="minmax", name=""):
     )
 
 
-def _searched(budget: float):
+def _searched(budget: float, order: str = "kl"):
     def build(model: MLP, splits: Splits) -> QuantConfig:
-        return search_mixed_precision(model, splits.x_calib, splits.y_calib, budget=budget).config
+        return search_mixed_precision(model, splits.x_calib, splits.y_calib, budget=budget, order=order).config
 
     return build
 
@@ -39,6 +39,7 @@ RECIPES: dict[str, Callable[[MLP, Splits], QuantConfig | None]] = {
     "W3A8 per-channel, min-max": _uniform(3, 8),
     "W2A8 per-channel, min-max": _uniform(2, 8),
     "Mixed precision, searched (0.5% budget)": _searched(0.005),
+    "Mixed precision, searched, KL-per-byte order (0.5% budget)": _searched(0.005, order="kl_per_byte"),
 }
 
 
@@ -161,3 +162,37 @@ def bit_sweep(seeds: int = 5, bits=(2, 3, 4, 5, 6, 8)) -> dict:
             )
     fp32 = statistics.fmean(accuracy(m.forward(s.x_test), s.y_test) for m, s in models)
     return {"fp32_accuracy": fp32, "weights": weight_rows, "activations": act_rows}
+
+
+def search_ablation(seeds: int = 5, budget: float = 0.005) -> dict:
+    """Greedy mixed-precision search against the exhaustive optimum, per seed."""
+
+    def summary(model: MLP, splits: Splits, config: QuantConfig) -> dict:
+        result = evaluate_recipe(model, splits, config)
+        return {
+            "weight_bits": [s.weight_bits for s in config.layers],
+            "bytes": result["bytes"],
+            "test_accuracy": result["accuracy"],
+            "test_kl": result["kl"],
+        }
+
+    rows = []
+    for seed in range(seeds):
+        splits = load_digits_splits(seed)
+        model = train_mlp(splits.x_train, splits.y_train, seed=seed)
+        row = {"seed": seed}
+        for order in ("kl", "kl_per_byte"):
+            config = search_mixed_precision(model, splits.x_calib, splits.y_calib, budget=budget, order=order).config
+            row[f"greedy_{order}"] = summary(model, splits, config)
+        best = exhaustive_search(model, splits.x_calib, splits.y_calib, budget=budget).config
+        row["exhaustive"] = summary(model, splits, best)
+        rows.append(row)
+    return {
+        "budget": budget,
+        "quantized_forward_passes": {"greedy": 2 * N_LAYERS, "exhaustive": 2**N_LAYERS},
+        "matches_exhaustive": {
+            order: sum(r[f"greedy_{order}"]["weight_bits"] == r["exhaustive"]["weight_bits"] for r in rows)
+            for order in ("kl", "kl_per_byte")
+        },
+        "seeds": rows,
+    }
